@@ -1,5 +1,34 @@
 ![](../../workflows/gds/badge.svg) ![](../../workflows/docs/badge.svg) ![](../../workflows/test/badge.svg)
 
+# Multiplex Data and Address Lines
+Currently, TinyTapeout only supports 8 inputs, 8 outputs, and 8I/Os (input/outputs).
+This is a total of 24 pins. The 6502 has 40 pins. To make this work we have to mux the 16 address lines and 8 data lines.
+The address lines are always an input, so lets use the 8 input pins to represent this 16 bit binary number. The best technique for the address multiplexing may be to send the first 8 bits of the address on one clock cyle and then send the top 8 on the next cycle.
+So, to control the address lines of this
+# MOS 6502 Pinout
+        +----+--+----+
+     Vss  |1        40 | RST
+     RDY  |2        39 | φ2
+     φ1   |3        38 | SO
+     IRQ  |4        37 | φ0
+     ???  |5        36 | R/W
+     NMI  |6        35 | HALT
+     SYNC |7        34 | ???
+     Vcc  |8        33 | D0
+     A0   |9        32 | D1
+     A1   |10       31 | D2
+     A2   |11       30 | D3
+     A3   |12       29 | D4
+     A4   |13       28 | D5
+     A5   |14       27 | D6
+     A6   |15       26 | D7
+     A7   |16       25 | A15
+     A8   |17       24 | A14
+     A9   |18       23 | A13
+     A10  |19       22 | A12
+     A11  |20       21 | Vss
+          +-----------+
+
 # Tiny Tapeout Verilog Project Template
 
 - [Read the documentation for project](docs/info.md)
