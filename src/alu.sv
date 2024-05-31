@@ -12,17 +12,18 @@ module alu (parameter n = 8) (
     
     output wire [7:0] out,
 
-    output wire overflow_flag,
-    output wire carry_flag,
-    output wire half_carry_flag, 
+    output wire overflow,
+    output wire carry,
+    output wire half_carry, 
 );
 
-    wire [n-1:0] sum_val, and_val, xor_val, or_val;
+    wire [n-1:0] sum_val, and_val, xor_val, or_val, shift_right_sel;
 
     assign sum_val = a + b;
     assign and_val = a & b;
     assign xor_val = a ^ b;
     assign or_val =  a | b;
+
 
     wire [n-1:0] bTwosComplement; //create an intermediate for the two's complement for clarity
     wire [7:0] sub8 = {8{sub}}; //extend sub to 8 bits

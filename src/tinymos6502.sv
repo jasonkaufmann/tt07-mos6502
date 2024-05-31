@@ -30,6 +30,8 @@ wire [BUS_WIDTH - 1 : 0] PROCESSOR_STATUS;
 wire [BUS_WIDTH - 1 : 0] ADH;
 wire [BUS_WIDTH - 1 : 0] ADL;
 
+assign ADDRESS = {ADH, ADL};
+
 //define all the registers of the 6502
 register #(.n(BUS_WIDTH))          INDEX_REGISTER_X (.clk(CLK), .rst(RST_N), .data_in(DATA_BUS), .load(irxi), .data_out(DATA_BUS), .output_enable(irxo),);
 register #(.n(BUS_WIDTH))          INDEX_REGISTER_Y (.clk(CLK), .rst(RST_N), .data_in(DATA_BUS), .load(iryi), .data_out(DATA_BUS), .output_enable(iryo),);
@@ -51,7 +53,8 @@ assign PROCESSOR_STATUS = {neg_result, overflow, expansion, break_command, decim
 wire sum_sel, and_sel, xor_sel, or_sel, shift_right_sel;
 //sum select, and select, xor select, or select
 
-
+//ALU output flags
+wire alu_overflow, alu_carry, alu_half_carry;
 //define the ALU
 alu alu #(.n(BUS_WIDTH)) (
     .a(ACCUMULATOR), 
@@ -65,9 +68,9 @@ alu alu #(.n(BUS_WIDTH)) (
 
     .out(DATA_BUS), 
 
-    .overflow_flag(over), 
-    .carry_flag(carry_flag),
-    .half_carry_flag(half_carry_flag)
+    .overflow(alu_overflow), 
+    .carry(alu_carry),
+    .half_carry(alu_half_carry)
 );
 
 //make all the control lines
