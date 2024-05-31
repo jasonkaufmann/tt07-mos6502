@@ -1,12 +1,16 @@
 // This is an n-bit register with load, output enable, and asynchronous clear signals
 
-module register #(parameter n = 8) (
+module register #(parameter n = 8, OIS = 0) ( //OIS = Output Internal State
     input clk,
     input rst_n, // Active low asynchronous reset
 
     input [n-1:0] data_in, // Data to be loaded in
     input load,
     input output_enable,
+
+    `ifdef OUTPUT_INTERNAL_STATE
+    output reg [n-1:0] data_stored_out,
+    `endif
 
     output reg [n-1:0] data_out // Data to be stored
 );
@@ -20,6 +24,7 @@ module register #(parameter n = 8) (
         end
     end
 
+    assign data_out_stored = data_stored;
     assign data_out = output_enable ? data_stored : {n{1'bZ}}
 
 endmodule

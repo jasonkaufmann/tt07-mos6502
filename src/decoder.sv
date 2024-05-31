@@ -3,26 +3,9 @@ module decoder (
     input wire [7:0] insn,
     input wire clk,
     input wire rst,
-    input wire prog_mode,
-    input wire cf, 
-    input wire zf,
 
     // Outputs
-    output reg hlt,
-    output reg mi,
-    output reg ri,
-    output reg ro,
-    output reg io,
-    output reg ii,
-    output reg ai,
-    output reg ao,
-    output reg sumo,
-    output reg sub,
-    output reg bi,
-    output reg oi,
-    output reg ce, 
-    output reg co,
-    output reg j
+   o
 );
 
     reg [2:0] microClk = 0;

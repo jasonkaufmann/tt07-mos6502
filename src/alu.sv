@@ -1,14 +1,30 @@
-module alu (
-    input wire [7:0] a,
-    input wire [7:0] b,
-    input sub,
+module alu (parameter n = 8) (
+    input wire [n-1:0] a,
+    input wire [n-1:0] b,
+
+    input wire sum_sel,
+    input wire and_sel,
+    input wire xor_sel,
+    input wire or_sel,
+    input wire shift_right_sel,
+
+    input wire carry_in,
     
     output wire [7:0] out,
-    output zeroFlag,
-    output carryFlag 
-    );
 
-    wire [7:0] bTwosComplement; //create an intermediate for the two's complement for clarity
+    output wire overflow_flag,
+    output wire carry_flag,
+    output wire half_carry_flag, 
+);
+
+    wire [n-1:0] sum_val, and_val, xor_val, or_val;
+
+    assign sum_val = a + b;
+    assign and_val = a & b;
+    assign xor_val = a ^ b;
+    assign or_val =  a | b;
+
+    wire [n-1:0] bTwosComplement; //create an intermediate for the two's complement for clarity
     wire [7:0] sub8 = {8{sub}}; //extend sub to 8 bits
 
     assign bTwosComplement = b ^ sub8; //if we want to subtract, xor the b register with 1 to invert it
