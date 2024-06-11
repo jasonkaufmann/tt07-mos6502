@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Your Name
+ * Copyright (c) 2024 Jason Kaufmann
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -19,7 +19,7 @@ module tt_um_tinymos6502 (
   localparam BUS_WIDTH     = 8;  // This is an 8-bit CPU
   localparam ADDRESS_WIDTH = 16; // This is a 16-bit address space CPU
 
-  /* INPUTS */
+  /*** INPUTS ***/
   // Declare the input wires from outside the chip
   wire RDY, IRQ, NMI, SO;
 
@@ -28,35 +28,35 @@ module tt_um_tinymos6502 (
   assign IRQ = ui_in[1];  // Interrupt request signal
   assign NMI = ui_in[2];  // Non-maskable interrupt signal
   assign SO  = ui_in[3];  // Set overflow signal
-  /**********/
+  /*************/
 
-  /* OUTPUTS */
+  /*** OUTPUTS ***/
   // Declare register for full address
   reg [ADDRESS_WIDTH - 1: 0] ADDRESS;
   // Declare registers for read/write control and synchronization
   reg RW;   // Read/Write control
   reg SYNC; // Synchronization signal
-  /**********/
+  /***************/
 
   /********************* CLOCK DIVIDE BY 3 AND OUTPUT SIGNALS ************************/
-  wire clock_6502; // system clock that goes to the 6502
+  wire clock_6502;   // system clock that goes to the 6502
   reg [1:0] clk_div; // clock divider counter
 
   // Clock divider logic to generate system clock and control outputs
   always @(posedge clk or negedge rst_n) begin
     if (~rst_n) begin
-      clk_div <= 2'b00;       // Reset clock divider
-      clock_6502 <= 1'b0;   // Reset system clock
+      clk_div <= 2'b00;    // Reset clock divider
+      clock_6502 <= 1'b0;  // Reset system clock
     end else begin
       clk_div <= clk_div + 1; // Increment clock divider
       case (clk_div)
         2'b00: uo_out <= ADDRESS[0 : BUS_WIDTH - 1];      // Output lower byte of address
         2'b01: uo_out <= ADDRESS[BUS_WIDTH +: BUS_WIDTH]; // Output upper byte of address
         2'b10: begin
-          uo_out[0] <= RW;               // Output read/write control
-          uo_out[1] <= SYNC;             // Output synchronization signal
-          clock_6502 <= ~clock_6502; // Toggle system clock
-          clk_div <= 2'b00;              // Reset clock divider
+          uo_out[0] <= RW;             // Output read/write control
+          uo_out[1] <= SYNC;           // Output synchronization signal
+          clock_6502 <= ~clock_6502;   // Toggle system clock
+          clk_div <= 2'b00;            // Reset clock divider
         end
         default: ;
       endcase
@@ -64,10 +64,10 @@ module tt_um_tinymos6502 (
   end
   /***********************************************************************************/
 
-  /********************* Instantiate the 6502 core ************************/
+  /**************************** Instantiate the 6502 core ****************************/
   tinymos6502 tinymos6502_inst (
       .RST_N(rst_n),         // Reset signal, active low
-      .CLK(clock_6502),    // System clock signal
+      .CLK(clock_6502),      // System clock signal
       .RDY(RDY),             // Ready signal input
       .IRQ(IRQ),             // Interrupt request signal input
       .NMI(NMI),             // Non-maskable interrupt signal input
@@ -79,6 +79,6 @@ module tt_um_tinymos6502 (
       .RW(RW),               // Read/Write control signal
       .SYNC(SYNC)            // Synchronization signal
   );
-  /************************************************************************/
+  /***********************************************************************************/
 
 endmodule
