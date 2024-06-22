@@ -3,8 +3,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-`default_nettype none
-
 module tt_um_tinymos6502 (
     input  wire [7:0] ui_in,    // Dedicated inputs: 8-bit input bus for various control signals
     output wire [7:0] uo_out,   // Dedicated outputs: 8-bit output bus for various control signals
@@ -36,10 +34,12 @@ module tt_um_tinymos6502 (
   // Declare registers for read/write control and synchronization
   reg RW;   // Read/Write control
   reg SYNC; // Synchronization signal
+  reg [7:0] output_data; // Data output bus
+  assign uo_out = output_data; // Assign output data to output bus
   /***************/
 
   /********************* CLOCK DIVIDE BY 3 AND OUTPUT SIGNALS ************************/
-  wire clock_6502;   // system clock that goes to the 6502
+  reg clock_6502;   // system clock that goes to the 6502
   reg [1:0] clk_div; // clock divider counter
 
   // Clock divider logic to generate system clock and control outputs
@@ -50,11 +50,11 @@ module tt_um_tinymos6502 (
     end else begin
       clk_div <= clk_div + 1; // Increment clock divider
       case (clk_div)
-        2'b00: uo_out <= ADDRESS[0 : BUS_WIDTH - 1];      // Output lower byte of address
-        2'b01: uo_out <= ADDRESS[BUS_WIDTH +: BUS_WIDTH]; // Output upper byte of address
+        2'b00: output_data <= ADDRESS[BUS_WIDTH - 1 : 0];      // Output lower byte of address
+        2'b01: output_data <= ADDRESS[BUS_WIDTH +: BUS_WIDTH]; // Output upper byte of address
         2'b10: begin
-          uo_out[0] <= RW;             // Output read/write control
-          uo_out[1] <= SYNC;           // Output synchronization signal
+          output_data[0] <= RW;             // Output read/write control
+          output_data[1] <= SYNC;           // Output synchronization signal
           clock_6502 <= ~clock_6502;   // Toggle system clock
           clk_div <= 2'b00;            // Reset clock divider
         end

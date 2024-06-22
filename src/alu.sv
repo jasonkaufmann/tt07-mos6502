@@ -1,4 +1,4 @@
-module alu (parameter n = 8) (
+module alu #(parameter n = 8) (
     input wire [n-1:0] a,   //the accumulator
     input wire [n-1:0] mem, //the data memory
 
@@ -48,7 +48,9 @@ module alu (parameter n = 8) (
                   rol_sel ? rol_val : 
                   ror_sel ? ror_val : 0);
 
-    assign overflow = ((a ^ out) & (mem ^ out))[n-1]; //if the sign bit of a and b are different from the sign bit of the result, then overflow
+    wire [n-1:0] overflow_hold;
+    assign overflow_hold = ((a ^ out) & (mem ^ out)); //if the sign bit of a and b are different from the sign bit of the result, then overflow
+    assign overflow = overflow_hold[n-1]; //if the sign bit of a and b are different from the sign bit of the result, then overflow
     assign negative = out[n-1]; //the most significant bit is the sign bit
     assign zero = ~|out; //if any bit is high, then the result is not zero
     assign carry = (sum_val[n] | asl_val[n] | rol_val[n] | ror_val[n]) & ~subtract; //if the most significant bit is high, then carry

@@ -8,11 +8,11 @@ module register #(parameter n = 8, OIS = 0) ( //OIS = Output Internal State
     input load,
     input output_enable,
 
-    `ifdef OUTPUT_INTERNAL_STATE
-    output reg [n-1:0] data_stored_out,
+    `ifdef OIS
+    output wire [n-1:0] data_out_stored,
     `endif
 
-    output reg [n-1:0] data_out // Data to be stored
+    output wire [n-1:0] data_out // Data to be stored
 );
     reg [n-1:0] data_stored;
 
@@ -25,6 +25,6 @@ module register #(parameter n = 8, OIS = 0) ( //OIS = Output Internal State
     end
 
     assign data_out_stored = data_stored;
-    assign data_out = output_enable ? data_stored : {n{1'bZ}}
+    assign data_out = output_enable ? data_stored : {n{1'bZ}};
 
 endmodule
