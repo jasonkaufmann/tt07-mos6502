@@ -39,6 +39,10 @@ The rest of the pins
 See this for all possible instructions and addressing modes.
 <img width="1293" alt="Screenshot 2024-06-24 at 4 30 33 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/a0ccad09-42a7-43d1-a93e-fb34099bee91">
 
+# Internal Architecture Diagrams
+<img width="761" alt="Screenshot 2024-06-24 at 4 35 23 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/d718e94b-624d-456b-adc3-7a966ad05ae3">
+<img width="712" alt="Screenshot 2024-06-24 at 4 35 48 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/e05becad-8130-4005-bc2a-7d1f999c04cc">
+
 # Notes
 See this for all the notes I took when designing this.
 [MOS6502 CPU.pdf](https://github.com/user-attachments/files/15962288/MOS6502.CPU.pdf)
