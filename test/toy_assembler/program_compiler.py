@@ -52,7 +52,7 @@ def find_opcode(instruction):
         for lo_nibble, mnemonic_addr in lo_nibbles.items():
             mnemonic_addr_split = mnemonic_addr.split()
             if len(mnemonic_addr_split) == 2 and mnemonic_addr_split[0] == mnemonic and mnemonic_addr_split[1].startswith(addressing_mode):
-                return f"{hi_nibble[0]}{lo_nibble[-1]}"
+                return f"{hi_nibble}{lo_nibble}"
     return None
 
 # Step 3: Read the text file containing the assembly instructions
@@ -80,7 +80,10 @@ for instruction in instructions:
 for line in translated_instructions:
     print(line)
 
-# Step 6: Save the hexadecimal opcodes to output.txt
-with open('output.txt', 'w') as file:
+# Step 6: Save the hexadecimal opcodes to output.bin
+with open('program.bin', 'wb') as file:
     for hex_opcode in hex_output:
-        file.write(f"{hex_opcode}\n")
+        # Convert the hexadecimal string to bytes
+        byte_data = bytes.fromhex(hex_opcode)
+        # Write the bytes to the file
+        file.write(byte_data)
