@@ -35,6 +35,10 @@ The rest of the pins
      A11  |20       21 | Vss
           +-----------+
 
+# ISA information
+See this for all possible instructions and addressing modes.
+<img width="1293" alt="Screenshot 2024-06-24 at 4 30 33 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/a0ccad09-42a7-43d1-a93e-fb34099bee91">
+
 # Tiny Tapeout Verilog Project Template
 
 - [Read the documentation for project](docs/info.md)
