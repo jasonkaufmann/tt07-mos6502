@@ -37,6 +37,7 @@ def download_google_sheet_as_xlsx(credentials_file, spreadsheet_id, file_name):
     while done is False:
         status, done = downloader.next_chunk()
         print(f'Download {int(status.progress() * 100)}%.')
+        print("Downloaded ISA.xlsx")
 
 if __name__ == '__main__':
     download_google_sheet_as_xlsx(CREDENTIALS_FILE, SPREADSHEET_ID, FILE_NAME)

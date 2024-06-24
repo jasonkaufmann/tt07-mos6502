@@ -35,7 +35,7 @@ assign ADH = ADDRESS[ADDRESS_WIDTH - 1 : BUS_WIDTH];
 assign ADL = ADDRESS[BUS_WIDTH - 1 : 0];
 
 //create the program counter
-program_counter program_counter(
+program_counter PROGRAM_COUNTER(
     .clk(CLK),
     .rst(RST_N),
     .jump(1'b0),
