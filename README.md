@@ -39,6 +39,10 @@ The rest of the pins
 See this for all possible instructions and addressing modes.
 <img width="1293" alt="Screenshot 2024-06-24 at 4 30 33 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/a0ccad09-42a7-43d1-a93e-fb34099bee91">
 
+# Notes
+See this for all the notes I took when designing this.
+[MOS6502 CPU.pdf](https://github.com/user-attachments/files/15962288/MOS6502.CPU.pdf)
+
 # Tiny Tapeout Verilog Project Template
 
 - [Read the documentation for project](docs/info.md)
