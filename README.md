@@ -4,7 +4,7 @@
 Currently, TinyTapeout only supports 8 inputs, 8 outputs, and 8I/Os (input/outputs). This is a total of 24 pins. The 6502 has 40 pins. To make this work we have to mux some stuff.
 
 The ADDRESS lines are almost always an output to a memory location, so lets use the 8 output pins to represent this 16 bit binary number. The best technique for the address multiplexing is probably to send the first 8 bits of the address on one clock cyle and then send the top 8 on the next cycle.
-So, to control the address lines of this we will have a very basic circuit on the output that takes the 16 bit address and splits it into two 8 bit accesses. There are 2 other output signals R/W and SYNC, so we will need 3 total reads to get all the address lines and other output signals out of the CPU.
+So, to control the address lines of this we will have a very basic circuit on the output that takes the 16 bit address and splits it into two 8 bit accesses. There are 2 other output signals R/W and SYNC, so we will need 3 total reads/clock cycles to get all the address lines and other output signals out of the CPU. So, the 6502 internal clock will run 3x slower than the external one you provide in the board.
 
 The 8 DATA pins will go on the  I/O lines unmuxed and should fit perfectly. They need to be bidirectional for reads and writes to memory / other peripherals.
 
