@@ -22,6 +22,7 @@ localparam ADDRESS_WIDTH = 16; // this is an 16 bit address space CPU
 
 assign OUTPUT_ENABLE = RW ? 8'b1 : 8'b0; // if RW is high, make uio_oe an input, otherwise make it an output
 assign SYNC = 1'b1; //always in sync mode
+assign DATA_OUT = {8{1'bZ}}; //output data is always high impedance
 
 //define the buses in the CPU (yes, this has tri-state logic, yosys has limited support for this which I hope should work?)
 wire [BUS_WIDTH - 1 : 0] DATA_BUS; 
