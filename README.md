@@ -55,6 +55,10 @@ To connect the 6502 into a system you need external memory and some sort of inte
 See this for all the notes I took when designing this.
 [MOS6502 CPU.pdf](https://github.com/user-attachments/files/15962288/MOS6502.CPU.pdf)
 
+# Chip Cool Preview
+
+<img width="1058" alt="Screenshot 2024-06-24 at 6 24 54 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/d98e8e9d-07f5-4277-9536-318916be7494">
+
 # Tiny Tapeout Verilog Project Template
 
 - [Read the documentation for project](docs/info.md)
