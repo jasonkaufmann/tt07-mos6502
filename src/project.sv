@@ -5,7 +5,7 @@
 
 `default_nettype none
 
-module tt_um_tinymos6502 (
+module tt_um_jasonk_6502 (
     input  wire [7:0] ui_in,    // Dedicated inputs: 8-bit input bus for various control signals
     output wire [7:0] uo_out,   // Dedicated outputs: 8-bit output bus for various control signals
     input  wire [7:0] uio_in,   // IOs: Input path, 8-bit bidirectional bus for data input
