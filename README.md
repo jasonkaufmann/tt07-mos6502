@@ -46,6 +46,11 @@ See this for all possible instructions and addressing modes.
 <img width="761" alt="Screenshot 2024-06-24 at 4 35 23 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/d718e94b-624d-456b-adc3-7a966ad05ae3">
 <img width="712" alt="Screenshot 2024-06-24 at 4 35 48 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/e05becad-8130-4005-bc2a-7d1f999c04cc">
 
+# System Architecture
+To connect the 6502 into a system you need external memory and some sort of interface processor to read and write GPIOs, etc.
+
+<img width="523" alt="Screenshot 2024-06-24 at 5 52 26 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/c3007be5-5e0f-45e7-86fb-8e59edaf74e8">
+
 # Notes
 See this for all the notes I took when designing this.
 [MOS6502 CPU.pdf](https://github.com/user-attachments/files/15962288/MOS6502.CPU.pdf)
