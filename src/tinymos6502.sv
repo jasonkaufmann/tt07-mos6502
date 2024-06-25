@@ -45,17 +45,17 @@ program_counter PROGRAM_COUNTER(
 );
 
 //define all the registers of the 6502
-register #(.n(BUS_WIDTH))          INDEX_REGISTER_X (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(irxi), .data_out(DATA_BUS),  .output_enable(irxo));
-register #(.n(BUS_WIDTH))          INDEX_REGISTER_Y (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(iryi), .data_out(DATA_BUS),  .output_enable(iryo));
-register #(.n(BUS_WIDTH))          STACK_POINTER    (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(spri), .data_out(ADL),       .output_enable(spro));
-register #(.n(BUS_WIDTH))          PCH              (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(pchi), .data_out(ADH),       .output_enable(pcho));
-register #(.n(BUS_WIDTH))          PCL              (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(pcli), .data_out(ADL),       .output_enable(pclo));
-register #(.n(BUS_WIDTH))          DATA_BUFFER      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_IN),  .load(iri),  .data_out(DATA_BUS),  .output_enable(iro) );
+register_io #(.n(BUS_WIDTH))          INDEX_REGISTER_X (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(irxi), .data_out(DATA_BUS),  .output_enable(irxo));
+register_io #(.n(BUS_WIDTH))          INDEX_REGISTER_Y (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(iryi), .data_out(DATA_BUS),  .output_enable(iryo));
+register_io #(.n(BUS_WIDTH))          STACK_POINTER    (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(spri), .data_out(ADL),       .output_enable(spro));
+//register_io #(.n(BUS_WIDTH))          PCH              (.clk(CLK), .rst_n(RST_N), .data_in(ADH), .load(pchi),      .data_out(DATA_BUS),       .output_enable(pcho));
+//register_io #(.n(BUS_WIDTH))          PCL              (.clk(CLK), .rst_n(RST_N), .data_in(ADL), .load(pcli),      .data_out(ADL),       .output_enable(pclo));
+register_io #(.n(BUS_WIDTH))          DATA_BUFFER      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_IN),  .load(iri),  .data_out(DATA_BUS),  .output_enable(iro) );
 
 //register with internal state availble to outside blocks
 //OIS = Output Internal State
-register #(.n(BUS_WIDTH), .OIS(1)) ACCUMULATOR      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(ai),   .data_out(DATA_BUS),  .output_enable(ao)  `ifdef OIS , .data_out_stored(ACCUMULATOR_OUT) `endif);
-register #(.n(BUS_WIDTH), .OIS(1)) INSTRUCTION      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_IN),  .load(iri),  .data_out(DATA_BUS),  .output_enable(iro) `ifdef OIS , .data_out_stored(INSTR_BUS)       `endif);
+register_i  #(.n(BUS_WIDTH))          ACCUMULATOR      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(ai),   .data_out(ACCUMULATOR_OUT));
+register_i  #(.n(BUS_WIDTH))          INSTRUCTION      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_IN),  .load(iri),  .data_out(INSTR_BUS)      );
 
 //PSR (Processor status register) bits (its not really a register, but a collection of flags)
 wire                       neg_result, overflow, expansion, break_command, decimal_mode, interrupt_disable, zero_result, carry;

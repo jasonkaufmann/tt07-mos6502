@@ -19,7 +19,8 @@ project:
     - "alu.sv"
     - "tinymos6502.sv"
     - "decoder.sv"
-    - "register.sv"
+    - "register_io.sv"
+    - "register_i.sv"
     - "program_counter.sv"
     - "pla.sv"
 
