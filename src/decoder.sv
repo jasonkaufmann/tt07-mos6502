@@ -64,9 +64,9 @@ module decoder (
     // Microcode clock and opcode control
     always @(negedge clk or negedge rst_n) begin //on the falling edge of the clock or reset
         if (!rst_n) begin
-            {rw, irxi, iryi, spri, ai, pchi, pcli, psri, iri, irxo, iryo, spro, ao, pcho, pclo, psro, iro} <= 16'b0; //set all control lines to 0 if reset
+            {rw, irxi, iryi, spri, ai, pchi, pcli, psri, iri, irxo, iryo, spro, ao, pcho, pclo, psro, iro, target_bus, subtract, sum_sel, and_sel, xor_sel, or_sel, asl_sel, lsr_sel, rol_sel, ror_sel} <= 25'b0; //set all 25 control lines to 0
         end else begin
-            {rw, irxi, iryi, spri, ai, pchi, pcli, psri, iri, irxo, iryo, spro, ao, pcho, pclo, psro, iro} <= control_signals; //the control signals are the output of the PLA
+            {rw, irxi, iryi, spri, ai, pchi, pcli, psri, iri, irxo, iryo, spro, ao, pcho, pclo, psro, iro, target_bus, subtract, sum_sel, and_sel, xor_sel, or_sel, asl_sel, lsr_sel, rol_sel, ror_sel} <= control_signals ; //set all 25 control lines to 0
         end
     end
 endmodule

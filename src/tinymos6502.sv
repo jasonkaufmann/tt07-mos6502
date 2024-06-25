@@ -30,9 +30,14 @@ wire [BUS_WIDTH - 1 : 0] PROCESSOR_STATUS;
 wire [BUS_WIDTH - 1 : 0] ACCUMULATOR_OUT;
 wire [BUS_WIDTH - 1 : 0] ADH;
 wire [BUS_WIDTH - 1 : 0] ADL;
+wire [BUS_WIDTH - 1 : 0] STACK_POINTER_OUT;
+wire [BUS_WIDTH - 1 : 0] INDEX_REGISTER_X_OUT;
+wire [BUS_WIDTH - 1 : 0] INDEX_REGISTER_Y_OUT;
+wire [BUS_WIDTH - 1 : 0] DATA_BUFFER_OUT;
+wire [BUS_WIDTH - 1 : 0] ALU_OUT;
 
 assign ADH = ADDRESS[ADDRESS_WIDTH - 1 : BUS_WIDTH];
-assign ADL = ADDRESS[BUS_WIDTH - 1 : 0];
+assign ADL = spro ? STACK_POINTER_OUT : ADDRESS[BUS_WIDTH - 1 : 0];
 
 //create the program counter
 program_counter PROGRAM_COUNTER(
@@ -45,17 +50,18 @@ program_counter PROGRAM_COUNTER(
 );
 
 //define all the registers of the 6502
-register_io #(.n(BUS_WIDTH))          INDEX_REGISTER_X (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(irxi), .data_out(DATA_BUS),  .output_enable(irxo));
-register_io #(.n(BUS_WIDTH))          INDEX_REGISTER_Y (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(iryi), .data_out(DATA_BUS),  .output_enable(iryo));
-register_io #(.n(BUS_WIDTH))          STACK_POINTER    (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(spri), .data_out(ADL),       .output_enable(spro));
-//register_io #(.n(BUS_WIDTH))          PCH              (.clk(CLK), .rst_n(RST_N), .data_in(ADH), .load(pchi),      .data_out(DATA_BUS),       .output_enable(pcho));
-//register_io #(.n(BUS_WIDTH))          PCL              (.clk(CLK), .rst_n(RST_N), .data_in(ADL), .load(pcli),      .data_out(ADL),       .output_enable(pclo));
-register_io #(.n(BUS_WIDTH))          DATA_BUFFER      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_IN),  .load(iri),  .data_out(DATA_BUS),  .output_enable(iro) );
+register_io #(.n(BUS_WIDTH))          INDEX_REGISTER_X (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(irxi), .data_out(INDEX_REGISTER_X_OUT),  .output_enable(irxo));
+register_io #(.n(BUS_WIDTH))          INDEX_REGISTER_Y (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(iryi), .data_out(INDEX_REGISTER_Y_OUT),  .output_enable(iryo));
+register_io #(.n(BUS_WIDTH))          DATA_BUFFER      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_IN),  .load(iri),  .data_out(DATA_BUFFER_OUT),  .output_enable(iro) );
 
 //register with internal state availble to outside blocks
 //OIS = Output Internal State
-register_i  #(.n(BUS_WIDTH))          ACCUMULATOR      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(ai),   .data_out(ACCUMULATOR_OUT));
-register_i  #(.n(BUS_WIDTH))          INSTRUCTION      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_IN),  .load(iri),  .data_out(INSTR_BUS)      );
+register_i  #(.n(BUS_WIDTH))          ACCUMULATOR      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(ai),   .data_out(ACCUMULATOR_OUT)   );
+register_i  #(.n(BUS_WIDTH))          INSTRUCTION      (.clk(CLK), .rst_n(RST_N), .data_in(DATA_IN),  .load(iri),  .data_out(INSTR_BUS)         );
+register_i  #(.n(BUS_WIDTH))          STACK_POINTER    (.clk(CLK), .rst_n(RST_N), .data_in(DATA_BUS), .load(spri), .data_out(STACK_POINTER_OUT) );
+
+assign aluo = sum_sel | and_sel | xor_sel | or_sel | asl_sel | lsr_sel | rol_sel | ror_sel;
+assign DATA_BUS = irxo ? INDEX_REGISTER_X_OUT : iryo ? INDEX_REGISTER_Y_OUT : iri ? DATA_BUFFER_OUT : aluo ? ALU_OUT : {BUS_WIDTH{1'bZ}};
 
 //PSR (Processor status register) bits (its not really a register, but a collection of flags)
 wire                       neg_result, overflow, expansion, break_command, decimal_mode, interrupt_disable, zero_result, carry;
@@ -96,7 +102,7 @@ alu #(.n(BUS_WIDTH)) ALU (
     .carry_in(carry),
 
     //output
-    .out(DATA_BUS), 
+    .out(ALU_OUT), 
 
     .overflow(alu_overflow), 
     .carry(alu_carry),
@@ -106,7 +112,7 @@ alu #(.n(BUS_WIDTH)) ALU (
 
 //make all the control lines to all the registers
 wire irxi, iryi, spri, ai, pchi, pcli, psri, iri; //input enable (load) lines for register
-wire irxo, iryo, spro, ao, pcho, pclo, psro, iro; //output enable lines for register
+wire irxo, iryo, spro, ao, pcho, pclo, psro, iro, aluo; //output enable lines for register
 
 
 //make the instruction decoder
