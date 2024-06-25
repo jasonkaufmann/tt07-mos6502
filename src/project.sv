@@ -65,7 +65,7 @@ module tt_um_tinymos6502 (
   /***********************************************************************************/
 
   /**************************** Instantiate the 6502 core ****************************/
-  tinymos6502 tinymos6502_inst (
+  tiny_cpu tinymos6502_inst (
       .RST_N(rst_n),         // Reset signal, active low
       .CLK(clock_6502),      // System clock signal
       .RDY(RDY),             // Ready signal input

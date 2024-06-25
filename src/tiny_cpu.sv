@@ -1,5 +1,5 @@
 //top level module
-module tinymos6502 (
+module tiny_cpu (
     input  wire         RST_N,
     input  wire         CLK,
 
