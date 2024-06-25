@@ -22,14 +22,13 @@ module alu #(parameter n = 8) (
 
     output wire overflow,
     output wire carry,
-    output wire half_carry, 
     output wire zero,
     output wire negative
 );
 
     wire [n:0] sum_val, and_val, xor_val, or_val, asl_val, lsr_val, rol_val, ror_val;
     wire [n-1:0] mem_to_sum;
-    
+
     assign mem_to_sum = subtract ? ~mem : mem; //invert the b register if we are subtracting
     assign sum_val = a + (mem_to_sum + subtract) + subtract? {8{~carry_in}} : carry_in;
     assign and_val = a & mem;
