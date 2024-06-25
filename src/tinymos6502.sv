@@ -80,7 +80,7 @@ wire sum_sel, and_sel, xor_sel, or_sel, asl_sel, lsr_sel, rol_sel, ror_sel;
 //ALU output flags
 wire alu_overflow, alu_carry, alu_zero, alu_negative;
 
-wire target_bus, subtract;
+wire target_bus, subtract; 
 
 //define the ALU
 alu #(.n(BUS_WIDTH)) ALU (
@@ -102,7 +102,7 @@ alu #(.n(BUS_WIDTH)) ALU (
 
     .carry_in(carry),
 
-    //output
+    //outputs
     .out(ALU_OUT), 
 
     .overflow(alu_overflow), 
