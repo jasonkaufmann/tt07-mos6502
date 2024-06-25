@@ -3,14 +3,17 @@
 ## Multiplex Data and Address Lines
 Currently, TinyTapeout only supports 8 inputs, 8 outputs, and 8I/Os (input/outputs). This is a total of 24 pins. The 6502 has 40 pins. To make this work we have to mux some stuff.
 
-The address lines are almost always an output to a memory location, so lets use the 8 output pins to represent this 16 bit binary number. The best technique for the address multiplexing is probably to send the first 8 bits of the address on one clock cyle and then send the top 8 on the next cycle.
-So, to control the address lines of this we will have a very basic circuit on the output that takes the 16 bit address and splits it into two 8 bit accesses. We just have to make sure the 6502 clock pulses 1 time for every 2 external clock pulses. Then everything should run smoothly.
+The ADDRESS lines are almost always an output to a memory location, so lets use the 8 output pins to represent this 16 bit binary number. The best technique for the address multiplexing is probably to send the first 8 bits of the address on one clock cyle and then send the top 8 on the next cycle.
+So, to control the address lines of this we will have a very basic circuit on the output that takes the 16 bit address and splits it into two 8 bit accesses. There are 2 other output signals R/W and SYNC, so we will need 3 total reads/clock cycles to get all the address lines and other output signals out of the CPU. So, the 6502 internal clock will run 3x slower than the external one you provide in the board.
 
-The 8 data pins will go on the  I/O lines unmuxed and should fit perfectly. They need to be bidirectional for reads and writes to memory / other peripherals.
+The 8 DATA pins will go on the  I/O lines unmuxed and should fit perfectly. They need to be bidirectional for reads and writes to memory / other peripherals.
 
-The rest of the pins RST, RDY, IRQ, 
+The rest of the pins RDY, IRQ, NMI, and SO are inputs are can go on the input pins.
 
-The rest of the pins
+This results in the final TT pinout as follows:
+
+<img width="189" alt="Screenshot 2024-06-24 at 4 47 46 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/ab3400c4-2948-4f9f-8405-f717055c367a">
+
 ## MOS 6502 Pinout
         +----+--+----+
      Vss  |1        40 | RST
@@ -38,6 +41,10 @@ The rest of the pins
 # ISA information
 See this for all possible instructions and addressing modes.
 <img width="1293" alt="Screenshot 2024-06-24 at 4 30 33 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/a0ccad09-42a7-43d1-a93e-fb34099bee91">
+
+# Internal Architecture Diagrams
+<img width="761" alt="Screenshot 2024-06-24 at 4 35 23 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/d718e94b-624d-456b-adc3-7a966ad05ae3">
+<img width="712" alt="Screenshot 2024-06-24 at 4 35 48 PM" src="https://github.com/jasonkaufmann/tt07-mos6502/assets/41923667/e05becad-8130-4005-bc2a-7d1f999c04cc">
 
 # Notes
 See this for all the notes I took when designing this.
