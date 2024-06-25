@@ -1,5 +1,5 @@
 //top level module
-module tinyCpu (
+module tinymos6502 (
     input  wire         RST_N,
     input  wire         CLK,
 
@@ -40,7 +40,7 @@ program_counter PROGRAM_COUNTER(
     .rst(RST_N),
     .jump(1'b0),
     .countEnable(1'b1),
-    .jumpAddr(4'b0),
+    .jumpAddr(16'b0),
     .addr(ADDRESS)
 );
 

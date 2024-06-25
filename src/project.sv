@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+`default_nettype none
 
 module tt_um_tinymos6502 (
     input  wire [7:0] ui_in,    // Dedicated inputs: 8-bit input bus for various control signals
@@ -66,7 +67,7 @@ module tt_um_tinymos6502 (
   /***********************************************************************************/
 
   /**************************** Instantiate the 6502 core ****************************/
-  tinyCpu tinymos6502_inst (
+  tinymos6502 tinymos6502_inst (
       .RST_N(rst_n),         // Reset signal, active low
       .CLK(clock_6502),      // System clock signal
       .RDY(RDY),             // Ready signal input
