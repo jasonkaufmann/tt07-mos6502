@@ -1,5 +1,5 @@
 //top level module
-module tinycpu (
+module tinyCpu (
     input  wire         RST_N,
     input  wire         CLK,
 

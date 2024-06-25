@@ -32,6 +32,7 @@ async def test_project(dut):
 
     await ClockCycles(dut.clk, 1)
     dut.rst_n.value = 1
+    await ClockCycles(dut.clk, 2)
 
     dut._log.info("Test the program")
 
@@ -60,6 +61,8 @@ async def test_project(dut):
             addr = addr_high << 8 | addr_low
             print(f"Address: {hex(addr)}")
             # get that address from the program
+            if addr >= len(program):
+                break
             instruction = program[addr]
             print(f"Instruction: {hex(instruction)}")
 
